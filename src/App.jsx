@@ -8,6 +8,8 @@ import {TextHeader} from "./componemts/TextHeader";
 import "./App.css";
 
 function App() {
+  const HEROKU_PORT =
+    "https://engineer-position-full-backend-6873ee6bce6c.herokuapp.com/api/cards/";
   const LOCAL_PORT = "http://localhost:5000/api/cards/";
 
   const [cards, setCards] = useState([]);
@@ -15,7 +17,7 @@ function App() {
   //カード全体を取得ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   const getCards = async () => {
     try {
-      const response = await axios.get(LOCAL_PORT);
+      const response = await axios.get(HEROKU_PORT || LOCAL_PORT);
       setCards(response.data);
     } catch (err) {
       console.log(err);
@@ -33,7 +35,7 @@ function App() {
     try {
       await savePreviousCard();
 
-      const response = await axios.post(LOCAL_PORT);
+      const response = await axios.post(HEROKU_PORT || LOCAL_PORT);
       setActiveCardId(response.data._id);
       updateWorkspace(); //ワークスペース初期化
       getCards();
@@ -52,7 +54,7 @@ function App() {
     try {
       !deleteFlag && (await savePreviousCard());
 
-      const response = await axios.get(LOCAL_PORT + cardId);
+      const response = await axios.get((HEROKU_PORT || LOCAL_PORT) + cardId);
       setActiveCardId(cardId);
       updateWorkspace(response.data);
       getCards();
@@ -67,7 +69,7 @@ function App() {
     clearTimer();
 
     try {
-      await axios.delete(LOCAL_PORT + activeCardId);
+      await axios.delete((HEROKU_PORT || LOCAL_PORT) + activeCardId);
 
       const ActiveCardIndex = cards.findIndex(
         (card) => card._id === activeCardId
@@ -130,7 +132,9 @@ function App() {
     if (!activeCardId) return; //以前のカードが無い
 
     try {
-      const previousCard = await axios.get(LOCAL_PORT + activeCardId);
+      const previousCard = await axios.get(
+        (HEROKU_PORT || LOCAL_PORT) + activeCardId
+      );
       //変更があれば、１つ前のアクティブカードをDBに保存
       if (
         previousCard.data.title !== workspace.title ||
@@ -164,7 +168,7 @@ function App() {
 
   //アクティブカードを保存
   const saveActiveCard = async () => {
-    await axios.put(LOCAL_PORT + activeCardId, {
+    await axios.put((HEROKU_PORT || LOCAL_PORT) + activeCardId, {
       title: workspace.title,
       content: workspace.content,
     });
