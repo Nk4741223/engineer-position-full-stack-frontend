@@ -8,8 +8,8 @@ import {TextHeader} from "./componemts/TextHeader";
 import "./App.css";
 
 function App() {
-  const HEROKU_PORT =
-    "https://engineer-position-full-backend-6873ee6bce6c.herokuapp.com/api/cards/";
+  const HEROKU_PORT = process.env.HEROKU_PORT;
+  // "https://engineer-position-full-backend-6873ee6bce6c.herokuapp.com/api/cards/";
   const LOCAL_PORT = "http://localhost:5000/api/cards/";
 
   const [cards, setCards] = useState([]);
