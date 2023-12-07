@@ -8,7 +8,7 @@ import {TextHeader} from "./componemts/TextHeader";
 import "./App.css";
 
 function App() {
-  const HEROKU_PORT = process.env.HEROKU_PORT;
+  const DEPROY_PORT = process.env.HEROKU_PORT;
   // "https://engineer-position-full-backend-6873ee6bce6c.herokuapp.com/api/cards/";
   const LOCAL_PORT = "http://localhost:5000/api/cards/";
 
@@ -17,7 +17,7 @@ function App() {
   //カード全体を取得ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   const getCards = async () => {
     try {
-      const response = await axios.get(HEROKU_PORT || LOCAL_PORT);
+      const response = await axios.get(DEPROY_PORT || LOCAL_PORT);
       setCards(response.data);
     } catch (err) {
       console.log(err);
@@ -27,7 +27,7 @@ function App() {
   //初回の表示
   useEffect(() => {
     getCards();
-  }, []);
+  }, []); // eslint-disable-line
 
   //カードを追加ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   const onClickAdd = async () => {
@@ -35,7 +35,7 @@ function App() {
     try {
       await savePreviousCard();
 
-      const response = await axios.post(HEROKU_PORT || LOCAL_PORT);
+      const response = await axios.post(DEPROY_PORT || LOCAL_PORT);
       setActiveCardId(response.data._id);
       updateWorkspace(); //ワークスペース初期化
       getCards();
@@ -54,7 +54,7 @@ function App() {
     try {
       !deleteFlag && (await savePreviousCard());
 
-      const response = await axios.get((HEROKU_PORT || LOCAL_PORT) + cardId);
+      const response = await axios.get((DEPROY_PORT || LOCAL_PORT) + cardId);
       setActiveCardId(cardId);
       updateWorkspace(response.data);
       getCards();
@@ -69,7 +69,7 @@ function App() {
     clearTimer();
 
     try {
-      await axios.delete((HEROKU_PORT || LOCAL_PORT) + activeCardId);
+      await axios.delete((DEPROY_PORT || LOCAL_PORT) + activeCardId);
 
       const ActiveCardIndex = cards.findIndex(
         (card) => card._id === activeCardId
@@ -133,7 +133,7 @@ function App() {
 
     try {
       const previousCard = await axios.get(
-        (HEROKU_PORT || LOCAL_PORT) + activeCardId
+        (DEPROY_PORT || LOCAL_PORT) + activeCardId
       );
       //変更があれば、１つ前のアクティブカードをDBに保存
       if (
@@ -168,7 +168,7 @@ function App() {
 
   //アクティブカードを保存
   const saveActiveCard = async () => {
-    await axios.put((HEROKU_PORT || LOCAL_PORT) + activeCardId, {
+    await axios.put((DEPROY_PORT || LOCAL_PORT) + activeCardId, {
       title: workspace.title,
       content: workspace.content,
     });
