@@ -53,6 +53,7 @@ function App() {
       updateWorkspace(); //ワークスペース初期化
       getCards();
     } catch (err) {
+      console.log("追加できない");
       console.log(err);
     }
   };
@@ -181,11 +182,15 @@ function App() {
 
   //アクティブカードを保存
   const saveActiveCard = async () => {
-    await axios.put((DEPROY_PORT || LOCAL_PORT) + activeCardId, {
-      title: workspace.title,
-      content: workspace.content,
-    });
-    setSavedFlag(true);
+    try {
+      await axios.put((DEPROY_PORT || LOCAL_PORT) + activeCardId, {
+        title: workspace.title.substring(0, 20),
+        content: workspace.content.substring(0, 200),
+      });
+      setSavedFlag(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   //タイマーをクリア

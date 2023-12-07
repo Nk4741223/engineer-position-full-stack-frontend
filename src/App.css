@@ -108,10 +108,19 @@ button:hover {
   width: 100%;
   font-size: 120%;
 }
+
+#workspace-title::placeholder {
+  color: rgb(220, 220, 220);
+}
+
 #workspace-content {
   width: 100%;
   border: none;
   height: 300px;
+}
+
+#workspace-content::placeholder {
+  color: rgb(220, 220, 220);
 }
 
 #workspace-title:focus,
