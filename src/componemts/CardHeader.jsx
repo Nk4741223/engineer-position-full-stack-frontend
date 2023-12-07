@@ -5,7 +5,7 @@ export const CardHeader = (props) => {
   return (
     <div id="card-Header" className="headers">
       <input type="text" id="serch" placeholder="serch" />
-      <button onClick={onClickAdd}>+</button>
+      <button onClick={onClickAdd}>＋</button>
     </div>
   );
 };

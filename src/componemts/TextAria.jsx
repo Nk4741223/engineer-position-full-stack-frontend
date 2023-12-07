@@ -6,14 +6,16 @@ export const TextAria = (props) => {
     <div id="text-aria">
       <input
         type="text"
-        id="text-title"
+        id="workspace-title"
         value={workspace.title}
         onChange={(e) => onChangeText(e.target.value, "title")}
+        data-testid="workspaceTitle"
       />
       <textarea
-        id="text-content"
+        id="workspace-content"
         value={workspace.content}
         onChange={(e) => onChangeText(e.target.value, "content")}
+        data-testid="workspaceContent"
       />
     </div>
   );
