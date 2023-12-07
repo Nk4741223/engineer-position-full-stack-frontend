@@ -1,71 +1,74 @@
-# Getting Started with Create React App
+# フルスタックアプリ（フロント側）
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+フルスタックなメモアプリを実装しました。フロントから CRUD 操作をして、メモを DB に保存できます。
 
-## Available Scripts
+# 行ったこと
 
-In the project directory, you can run:
+## 要件
 
-### `npm start`
+- React（フロントのフレームワーク）
+- Node.js（フレームワークは Express）
+- mongoose（DB の Query Builder）
+- MongoDB（NoAQL の DB）
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## フロントエンド
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- UI デザイン
+- 読み込み
+  - 左側にはノートカードのリスト
+  - 右側には現在選択されているノートのテキスト
+  - ノートカードの最終更新日時でソート
+  - ノートカードはノートのタイトルと最終更新日時を表示
+  - ノートのタイトルは、ノートカードの最初の行に表示(長すぎる場合は、最初の数文字のみを抜き出し)
+  - ノートカードをクリックすると、選択したノートカードを強調
+- 作成
+  - ＋ボタンで、左側に空白のノートカードが作成され、右側に空白のノート作業スペースが作成
+- 削除
+  - ✕ ボタンで、ノートカードのリストからノートを削除
+  - ノート削除後、ノート作業スペースの表示は次に利用可能なノートが選択
+- 更新
 
-### `npm test`
+  - テキストを書き込める
+  - 最初の行を更新した場合、左側のノートカードのタイトルも更新
+  - キーボードに動きがない場合は 5 秒ごとに、もしくは別のノートに切り替えた時に保存（"Saved" というテキストを表示）
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 応用
+  - テストを実装（フレームワーク：jest）
 
-### `npm run build`
+## サーバサイド
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- RESTful API
+- 以下の CRUD 操作のエンドポイントを作成
+  - ノートの読み込み
+  - ノートの作成
+  - ノートの更新
+  - ノートの削除
+- テストを実装（フレームワーク：mocha）
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## データベース
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- NoSQL を使用
+- データベースの seed ファイルを作成
+- サーバと接続
+- `package.json` に `seed` スクリプトを作成
 
-### `npm run eject`
+## デプロイ
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Heroku にアプリをデプロイ
+- DEPLOY.md にリンク記入（フロントとバックで分割
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## その他
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- アプリの初期設定から起動までをコマンドで実行できるように `package.json` に適切な `scripts` を設定
+- Git を使用してソース管理
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# 初期設定から起動までのコマンド
 
-## Learn More
+フロント、バックそれぞれで、以下を実行ください
+`npm run setup-and-start`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# 著書
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# engineer-position-full-stack-frontend
+- 作成者：野村
+- 所属：デジタル変革推進室
+- E-mail：koki_nomura@mail.toyota.co.jp
