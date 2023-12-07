@@ -9,7 +9,6 @@ import "./App.css";
 
 function App() {
   const DEPROY_PORT = process.env.REACT_APP_HEROKU_PORT;
-  // "https://engineer-position-full-backend-6873ee6bce6c.herokuapp.com/api/cards/";
   const LOCAL_PORT = "http://localhost:5000/api/cards/";
 
   const [cards, setCards] = useState([]);
@@ -19,6 +18,7 @@ function App() {
     try {
       const response = await axios.get(DEPROY_PORT || LOCAL_PORT);
       setCards(response.data);
+      setSerchInput("");
     } catch (err) {
       console.log(err);
     }
@@ -28,6 +28,19 @@ function App() {
   useEffect(() => {
     getCards();
   }, []); // eslint-disable-line
+
+  //検索ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+  const [serchInput, setSerchInput] = useState("");
+  const onChangeSerch = async (value) => {
+    setSerchInput(value);
+    const response = await axios.get(
+      DEPROY_PORT || LOCAL_PORT + `search/query?q=${value}`
+    );
+    setCards(response.data);
+
+    setActiveCardId(); //アクティブカード初期化
+    updateWorkspace();
+  };
 
   //カードを追加ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   const onClickAdd = async () => {
@@ -78,7 +91,7 @@ function App() {
       if (ActiveCardIndex < cards.length - 1) {
         onClickCard(cards[ActiveCardIndex + 1]._id, true); //次のカードをアクティブ化
       } else {
-        setActiveCardId(false); //アクティブカード初期化
+        setActiveCardId(); //アクティブカード初期化
         updateWorkspace();
         getCards();
       }
@@ -189,19 +202,20 @@ function App() {
       <h1>Notes</h1>
       <div id="all-container">
         <div id="card-container">
-          <CardHeader onClickAdd={onClickAdd}></CardHeader>
+          <CardHeader
+            onClickAdd={onClickAdd}
+            onChangeSerch={onChangeSerch}
+            serchInput={serchInput}
+          />
           <CardAria
             cards={cards}
             onClickCard={onClickCard}
-            activeCardId={activeCardId}></CardAria>
+            activeCardId={activeCardId}
+          />
         </div>
         <div id="text-container">
-          <TextHeader
-            onClickDelete={onClickDelete}
-            savedFlag={savedFlag}></TextHeader>
-          <TextAria
-            workspace={workspace}
-            onChangeText={onChangeText}></TextAria>
+          <TextHeader onClickDelete={onClickDelete} savedFlag={savedFlag} />
+          <TextAria workspace={workspace} onChangeText={onChangeText} />
         </div>
       </div>
     </>
