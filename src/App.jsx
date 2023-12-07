@@ -8,7 +8,7 @@ import {TextHeader} from "./componemts/TextHeader";
 import "./App.css";
 
 function App() {
-  const DEPROY_PORT = process.env.REACT_HEROKU_PORT;
+  const DEPROY_PORT = process.env.REACT_API_HEROKU_PORT;
   // "https://engineer-position-full-backend-6873ee6bce6c.herokuapp.com/api/cards/";
   const LOCAL_PORT = "http://localhost:5000/api/cards/";
 
