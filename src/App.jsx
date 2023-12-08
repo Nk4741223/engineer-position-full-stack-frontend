@@ -32,14 +32,18 @@ function App() {
   //検索ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   const [serchInput, setSerchInput] = useState("");
   const onChangeSerch = async (value) => {
-    setSerchInput(value);
-    const response = await axios.get(
-      DEPROY_PORT || LOCAL_PORT + `search/query?q=${value}`
-    );
-    setCards(response.data);
+    try {
+      setSerchInput(value);
+      const response = await axios.get(
+        DEPROY_PORT || LOCAL_PORT + `search/query?q=${value}`
+      );
+      setCards(response.data);
 
-    setActiveCardId(); //アクティブカード初期化
-    updateWorkspace();
+      setActiveCardId(); //アクティブカード初期化
+      updateWorkspace();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   //カードを追加ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
