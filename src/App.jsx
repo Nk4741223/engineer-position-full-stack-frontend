@@ -35,7 +35,7 @@ function App() {
     try {
       setSerchInput(value);
       const response = await axios.get(
-        DEPROY_PORT || LOCAL_PORT + `search/query?q=${value}`
+        (DEPROY_PORT || LOCAL_PORT) + `search/query?q=${value}`
       );
       setCards(response.data);
 
