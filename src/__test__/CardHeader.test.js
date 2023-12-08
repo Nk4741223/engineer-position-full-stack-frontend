@@ -17,4 +17,15 @@ describe("Test CardHeader Component", () => {
 
     expect(mockOnClickAdd).toHaveBeenCalled();
   });
+
+  test("検索内容が変更されたときにonChangeSerchが呼ばれること", () => {
+    const mockOnChangeSerch = jest.fn();
+
+    render(<CardHeader onChangeSerch={mockOnChangeSerch} />);
+
+    const serchInput = screen.getByPlaceholderText("serch");
+    fireEvent.change(serchInput, {target: {value: "search term"}});
+
+    expect(mockOnChangeSerch).toHaveBeenCalledWith("search term");
+  });
 });
