@@ -8,7 +8,7 @@ describe("Test CardHeader Component", () => {
     expect(buttonList).toHaveLength(1);
   });
 
-  test("＋ボタンがクリックされたときにonClickが呼ばれること", () => {
+  test("＋ボタンがクリックされたときにonClickAddが呼ばれること", () => {
     const mockOnClickAdd = jest.fn();
     render(<CardHeader onClickAdd={mockOnClickAdd} />);
 

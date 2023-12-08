@@ -12,6 +12,9 @@ function App() {
   const LOCAL_PORT = "http://localhost:5000/api/cards/";
 
   const [cards, setCards] = useState([]);
+  const [serchInput, setSerchInput] = useState("");
+  const [activeCardId, setActiveCardId] = useState(false);
+  const [workspace, setWorkspace] = useState({title: "", content: ""});
 
   //カード全体を取得ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
   const getCards = async () => {
@@ -30,7 +33,7 @@ function App() {
   }, []); // eslint-disable-line
 
   //検索ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-  const [serchInput, setSerchInput] = useState("");
+
   const onChangeSerch = async (value) => {
     try {
       setSerchInput(value);
@@ -39,7 +42,7 @@ function App() {
       );
       setCards(response.data);
 
-      setActiveCardId(); //アクティブカード初期化
+      setActiveCardId();
       updateWorkspace();
     } catch (err) {
       console.log(err);
@@ -54,17 +57,14 @@ function App() {
 
       const response = await axios.post(DEPROY_PORT || LOCAL_PORT);
       setActiveCardId(response.data._id);
-      updateWorkspace(); //ワークスペース初期化
+      updateWorkspace();
       getCards();
     } catch (err) {
-      console.log("追加できない");
       console.log(err);
     }
   };
 
   //カードを１つ取得ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-  const [activeCardId, setActiveCardId] = useState(false);
-
   const onClickCard = async (cardId, deleteFlag) => {
     if (activeCardId === cardId) return; //連続で押せない
     clearTimer();
@@ -92,11 +92,10 @@ function App() {
       const ActiveCardIndex = cards.findIndex(
         (card) => card._id === activeCardId
       );
-
       if (ActiveCardIndex < cards.length - 1) {
         onClickCard(cards[ActiveCardIndex + 1]._id, true); //次のカードをアクティブ化
       } else {
-        setActiveCardId(); //アクティブカード初期化
+        setActiveCardId();
         updateWorkspace();
         getCards();
       }
@@ -106,8 +105,6 @@ function App() {
   };
 
   //ワークスペース表示ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-  const [workspace, setWorkspace] = useState({title: "", content: ""});
-  const [inputChange, setInputChange] = useState(false);
 
   //カードを反映
   const updateWorkspace = (activeCard) => {
@@ -118,6 +115,8 @@ function App() {
     }
     setWorkspace(newWorkspace);
   };
+
+  const [inputChange, setInputChange] = useState(false);
 
   //テキスト入力
   const onChangeText = (value, key) => {
@@ -144,8 +143,6 @@ function App() {
   };
 
   //以前のカードを保存ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
-  const [savedFlag, setSavedFlag] = useState(false);
-
   const savePreviousCard = async () => {
     if (!activeCardId) return; //以前のカードが無い
 
@@ -184,12 +181,14 @@ function App() {
     setTimeoutId(newTimeoutId);
   }, [inputChange]); // eslint-disable-line
 
+  const [savedFlag, setSavedFlag] = useState(false);
+
   //アクティブカードを保存
   const saveActiveCard = async () => {
     try {
       await axios.put((DEPROY_PORT || LOCAL_PORT) + activeCardId, {
-        title: workspace.title.substring(0, 20),
-        content: workspace.content.substring(0, 200),
+        title: workspace.title.substring(0, 20), //20文字制限
+        content: workspace.content.substring(0, 200), //200文字制限
       });
       setSavedFlag(true);
     } catch (err) {

@@ -3,7 +3,7 @@ import React from "react";
 export const CardHeader = (props) => {
   const {onClickAdd, onChangeSerch, serchInput} = props;
   return (
-    <div id="card-Header" className="headers">
+    <div className="headers">
       <input
         value={serchInput}
         type="text"
